@@ -1,25 +1,33 @@
+
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
+        int n = prices.size();
 
-        int left = 0;       // buying day
-        int maxProfit = 0;
+        int window = 0;
+        int profit = 0;
+        int max_profit = 0;
 
-        for (int right = 1; right < prices.size(); right++) {
+        int i = 0, j = 0;
+        int min_price = INT_MAX;
 
-            // Found a cheaper buying price
-            if (prices[right] < prices[left]) {
-                left = right;
-            }
+        while (j < n) {
 
-            // Calculate profit
-            else {
-                int profit = prices[right] - prices[left];
+            // Expand the window
+            window = j - i + 1;
 
-                maxProfit = max(maxProfit, profit);
-            }
+            // Track the minimum buying price
+            min_price = min(min_price, prices[j]);
+
+            // Calculate profit by selling today
+            profit = prices[j] - min_price;
+
+            // Update maximum profit
+            max_profit = max(max_profit, profit);
+
+            j++;
         }
 
-        return maxProfit;
+        return max_profit;
     }
 };
